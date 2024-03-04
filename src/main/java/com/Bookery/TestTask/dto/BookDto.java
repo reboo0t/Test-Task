@@ -6,11 +6,11 @@ import lombok.Builder;
 @Data
 @Builder
 public class BookDto {
-        private long id;
-        private long isbn;
-        private String title;
-        private int year;
-        private float price;
-        private String file_name;
-        private long AuthorId;
+    long id;
+    long isbn;
+    String title;
+    int year;
+    float price;
+    String file_name;
+    long author;
 }

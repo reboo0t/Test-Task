@@ -1,11 +1,35 @@
 package com.Bookery.TestTask.service;
 
 import com.Bookery.TestTask.dto.BookDto;
-import org.springframework.context.annotation.ComponentScan;
+import com.Bookery.TestTask.model.Book;
+import com.Bookery.TestTask.repository.BookRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@ComponentScan(basePackages = "com.Bookery.TestTask.controller, " + "com.Bookery.TestTask.service")
-public interface BookService {
-    List<BookDto> findAllBooks();
+@Service
+public class BookService {
+    public BookRepository bookRepository;
+
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
+
+    public List<BookDto> findAllBooks() {
+        List<Book> books = bookRepository.findAll();
+        return books.stream().map((book) -> mapToBookDto(book)).collect(Collectors.toList());
+    }
+
+    private BookDto mapToBookDto(Book book){
+        return BookDto.builder()
+                .id(book.getId())
+                .isbn(book.getIsbn())
+                .title(book.getTitle())
+                .year(book.getYear())
+                .price(book.getPrice())
+                .file_name(book.getFile_name())
+                .build();
+    }
+
 }

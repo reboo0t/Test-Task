@@ -12,10 +12,10 @@ import java.util.List;
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String name;
-    private LocalDate birthdate;
+    long id;
+    String name;
+    LocalDate birthdate;
 
-    @OneToMany(mappedBy = "AuthorId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Book> books;
+    @OneToMany(mappedBy = "authorId", cascade = CascadeType.ALL)
+    List<Book> books;
 }

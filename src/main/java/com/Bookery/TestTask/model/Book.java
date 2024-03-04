@@ -12,14 +12,14 @@ import lombok.*;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private long isbn;
-    private String title;
-    private int year;
-    private float price;
-    private String file_name;
+    long id;
+    long isbn;
+    String title;
+    int year;
+    float price;
+    String file_name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "AuthorId")
-    private Author AuthorId;
+    @JoinColumn(name = "author")
+    Author authorId;
 }

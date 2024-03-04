@@ -10,8 +10,8 @@ import java.util.List;
 @Data
 @Builder
 public class AuthorDto {
-    private Long id;
-    private String name;
-    private LocalDate birthdate;
-    private List<Long> bookIds;
+    Long id;
+    String name;
+    LocalDate birthdate;
+    List<Long> bookIds;
 }
