@@ -1,19 +1,79 @@
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+<html lang="en"
+      layout:decorate="~{layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <body>
 
 <!-- Section-->
-<section layout:fragment="body" class="py-5">
+<section class="py-5" layout:fragment="body">
     <div class="container px-4 px-lg-5 mt-5">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        <div class="gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
+
+            <div class="container" style="width: 500px;">
+                <form enctype="multipart/form-data" method="post" role="form" th:action="@{/books/new}"
+                      th:object="${book}">
+                    <div class="mb-3">
+                        <label class="form-label" for="isbn">ISBN-13</label>
+                        <input
+                                class="form-control"
+                                id="isbn"
+                                name="isbn"
+                                th:field="*{isbn}"
+                                type="number">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="title">Title</label>
+                        <input
+                                class="form-control"
+                                id="title"
+                                name="title"
+                                th:field="*{title}"
+                                type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="year">Year</label>
+                        <input
+                                class="form-control"
+                                id="year"
+                                name="year"
+                                th:field="*{year}"
+                                type="number">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="authorId">Author</label>
+                        <select class="form-control" id="authorId" name="authorId" th:field="*{authorId.id}">
+                            <option th:each="authorDto : ${authors}" th:text="${authorDto.name}"
+                                    th:value="${authorDto.id}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="price">Price</label>
+                        <input
+                                class="form-control"
+                                id="price"
+                                name="price"
+                                step="0.01"
+                                th:field="*{price}"
+                                type="number">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="file_name">Book Image</label>
+                        <input accept="image/*"
+                               class="form-control"
+                               id="file_name"
+                               name="image"
+                               type="file">
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-dark" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
 
         </div>
     </div>
 </section>
 
 </body>
-
 
 </html>

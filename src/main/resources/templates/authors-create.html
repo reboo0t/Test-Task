@@ -1,0 +1,44 @@
+<html lang="en"
+      layout:decorate="~{layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<body>
+
+<!-- Section-->
+<section class="py-5" layout:fragment="body">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
+
+            <div class="container" style="width: 500px;">
+                <form method="post" role="form" th:action="@{/authors/new}" th:object="${author}">
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Author Name</label>
+                        <input
+                                class="form-control"
+                                id="name"
+                                name="name"
+                                th:field="*{name}"
+                                type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="birthdate">Author Birthdate</label>
+                        <input
+                                class="form-control"
+                                id="birthdate"
+                                name="birthdate"
+                                th:field="*{birthdate}"
+                                type="date">
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-dark" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+</body>
+
+</html>

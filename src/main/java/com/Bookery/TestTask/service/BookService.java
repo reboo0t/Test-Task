@@ -21,7 +21,7 @@ public class BookService {
         return books.stream().map((book) -> mapToBookDto(book)).collect(Collectors.toList());
     }
 
-    private BookDto mapToBookDto(Book book){
+    private BookDto mapToBookDto(Book book) {
         return BookDto.builder()
                 .id(book.getId())
                 .isbn(book.getIsbn())
@@ -30,6 +30,10 @@ public class BookService {
                 .price(book.getPrice())
                 .file_name(book.getFile_name())
                 .build();
+    }
+
+    public Book saveBook(Book book) {
+        return bookRepository.save(book);
     }
 
 }

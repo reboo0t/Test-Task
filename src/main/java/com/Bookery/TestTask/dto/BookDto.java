@@ -1,7 +1,7 @@
 package com.Bookery.TestTask.dto;
 
-import lombok.Data;
 import lombok.Builder;
+import lombok.Data;
 
 @Data
 @Builder

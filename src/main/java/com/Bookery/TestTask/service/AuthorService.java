@@ -12,14 +12,16 @@ import java.util.stream.Collectors;
 public class AuthorService {
     public AuthorRepository authorRepository;
 
-    public AuthorService(AuthorRepository authorRepository) { this.authorRepository = authorRepository; }
+    public AuthorService(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
+    }
 
     public List<AuthorDto> findAllAuthors() {
         List<Author> authors = authorRepository.findAll();
         return authors.stream().map((author) -> mapToAuthorDto(author)).collect(Collectors.toList());
     }
 
-    private AuthorDto mapToAuthorDto(Author author){
+    private AuthorDto mapToAuthorDto(Author author) {
         return AuthorDto.builder()
                 .id(author.getId())
                 .birthdate(author.getBirthdate())
@@ -27,4 +29,7 @@ public class AuthorService {
                 .build();
     }
 
+    public Author saveAuthor(Author author) {
+        return authorRepository.save(author);
+    }
 }

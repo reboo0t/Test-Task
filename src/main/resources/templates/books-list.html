@@ -1,23 +1,24 @@
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      layout:decorate="~{layout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+      xmlns:th="http://www.thymeleaf.org">
 
 <body>
 
 <!-- Section-->
-<section layout:fragment="body" class="py-5">
+<section class="py-5" layout:fragment="body">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            <div th:each="book :${books}" class="col mb-5">
+
+            <div class="col mb-5" th:each="book :${books}">
                 <div class="card h-100">
                     <!-- Product image-->
-                    <img class="card-img-top" th:src="@{'HP/' + ${book.file_name}}" alt="Book Image" />
-
+                    <img alt="Book Image" class="card-img-top" th:src="@{'covers/' + ${book.file_name}}"/>
                     <!-- Product details-->
                     <div class="card-body p-4">
                         <div class="text-center">
                             <!-- Product name-->
-                            <h5 th:text="${book.title}" class="fw-bolder">Sale item</h5>
+                            <h5 class="fw-bolder" th:text="${book.title}">Sale item</h5>
                             <!-- Product price-->
                             <span th:text="'$' + ${book.price}"></span>
                         </div>
@@ -28,11 +29,11 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
 
 </body>
-
 
 </html>
