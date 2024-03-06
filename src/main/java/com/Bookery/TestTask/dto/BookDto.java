@@ -12,5 +12,5 @@ public class BookDto {
     int year;
     float price;
     String file_name;
-    long author;
+    AuthorDto author;
 }

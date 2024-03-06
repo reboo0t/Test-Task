@@ -14,7 +14,7 @@ import java.util.List;
 
 @Controller
 public class AuthorController {
-    private AuthorService authorService;
+    private final AuthorService authorService;
 
     @Autowired
     public AuthorController(AuthorService authorService) {
@@ -22,7 +22,7 @@ public class AuthorController {
     }
 
     @GetMapping("/authors")
-    public String listBooks(Model model) {
+    public String listAuthors(Model model) {
         List<AuthorDto> authors = authorService.findAllAuthors();
         model.addAttribute("authors", authors);
         return "authors-list";

@@ -6,22 +6,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "authors")
-public class Author {
+@Table(name = "users")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    String name;
-    LocalDate birthdate;
-
-    @OneToMany(mappedBy = "authorId", cascade = CascadeType.ALL)
-    List<Book> books;
+    @Column(nullable = false, unique = true)
+    long username;
+    String password_hash;
+    String role;
 }

@@ -14,4 +14,9 @@ public class AuthorDto {
     String name;
     LocalDate birthdate;
     List<Long> bookIds;
+    @Override
+    public String toString() {
+        return String.valueOf(id);
+    }
+
 }

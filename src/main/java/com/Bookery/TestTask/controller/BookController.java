@@ -9,10 +9,7 @@ import com.Bookery.TestTask.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -51,11 +48,28 @@ public class BookController {
 
     @PostMapping("/books/new")
     public String saveBook(@ModelAttribute("book") Book book, @RequestParam("image") MultipartFile file) throws IOException {
-
         Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
         Files.write(fileNameAndPath, file.getBytes());
         book.setFile_name(file.getOriginalFilename());
         bookService.saveBook(book);
+        return "redirect:/books";
+    }
+
+    @GetMapping("/books/{bookId}/edit")
+    public String editBookForm(@PathVariable("bookId") long bookId, Model model) {
+        BookDto book = bookService.findBookById(bookId);
+        List<AuthorDto> authors = authorService.findAllAuthors();
+        model.addAttribute("book", book);
+        model.addAttribute("authors", authors);
+        return "books-edit";
+    }
+
+    @PostMapping("/books/{bookId}/edit")
+    public String updateBook(@PathVariable("bookId") Long bookId, @ModelAttribute("book") BookDto book,  @RequestParam("image") MultipartFile file) throws IOException {
+        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
+        Files.write(fileNameAndPath, file.getBytes());
+        book.setId(bookId);
+        bookService.updateBook(book);
         return "redirect:/books";
     }
 }

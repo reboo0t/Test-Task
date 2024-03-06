@@ -9295,6 +9295,9 @@ textarea.form-control-lg {
   }
 }
 @media (min-width: 992px) {
+  .navbar-login-form {
+
+  }
   .float-lg-start {
     float: left !important;
   }
