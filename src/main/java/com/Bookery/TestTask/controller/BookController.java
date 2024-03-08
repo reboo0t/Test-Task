@@ -65,11 +65,23 @@ public class BookController {
     }
 
     @PostMapping("/books/{bookId}/edit")
-    public String updateBook(@PathVariable("bookId") Long bookId, @ModelAttribute("book") BookDto book,  @RequestParam("image") MultipartFile file) throws IOException {
-        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
-        Files.write(fileNameAndPath, file.getBytes());
+    public String updateBook(@PathVariable("bookId") Long bookId, @ModelAttribute("book") BookDto book, @RequestParam("image") MultipartFile file) throws IOException {
+        BookDto existingBook = bookService.findBookById(bookId);
+        book.setFile_name(existingBook.getFile_name());
+        if (!file.isEmpty()) {
+            Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
+            Files.write(fileNameAndPath, file.getBytes());
+            book.setFile_name(file.getOriginalFilename());
+        }
         book.setId(bookId);
         bookService.updateBook(book);
         return "redirect:/books";
     }
+
+    @GetMapping("/books/{bookId}/delete")
+    public String deleteBook(@PathVariable("bookId") long bookId) {
+        bookService.deleteBookById(bookId);
+        return "redirect:/books";
+    }
+
 }

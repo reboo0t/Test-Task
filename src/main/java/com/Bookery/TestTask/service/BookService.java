@@ -76,4 +76,8 @@ public class BookService {
                 .authorId(mapToAuthor(book.getAuthor()))
                 .build();
     }
+
+    public void deleteBookById(long id) {
+        bookRepository.deleteById(id);
+    }
 }
