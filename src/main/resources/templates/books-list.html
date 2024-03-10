@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en"
       layout:decorate="~{layout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -11,27 +12,56 @@
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
             <div class="col mb-5" th:each="book :${books}">
-                <div class="card h-100">
-                    <!-- Product image-->
-                    <img alt="Book Image" class="card-img-top" th:src="@{'covers/' + ${book.file_name}}"/>
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder" th:text="${book.title}">Sale item</h5>
-                            <!-- Product price-->
-                            <span th:text="'$' + ${book.price}"></span>
+
+                <div class="card h-100" th:id="${book.id}">
+
+
+
+                    <div class="cardOriginal">
+                        <!-- Product image-->
+                        <div class="button-overlay position-relative d-inline-block large-icon">
+                            <img alt="Book Image" class="card-img-top" th:src="@{'covers/' + ${book.file_name}}"/>
+                            <div class="info-icon">
+                                <a href="#" class="info-button"><i class="bi-info-circle-fill text-white"></i></a>
+                            </div>
+                        </div>
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder book-title" th:text="${book.title}">Sale item</h5>
+                                <span class="book-price" th:text="'$' + ${book.price}"></span>
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center">
+                                <a class="btn btn-outline-dark mt-auto"
+                                   th:href="@{/books/{bookId}/edit(bookId=${book.id})}"><i class="bi-pencil-fill"></i></a>
+                                <a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a>
+                                <a class="btn btn-outline-dark mt-auto"
+                                   th:href="@{/books/{bookId}/delete(bookId=${book.id})}"><i class="bi-trash-fill"></i></a>
+                            </div>
                         </div>
                     </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center">
-                            <a class="btn btn-outline-dark mt-auto" th:href="@{/books/{bookId}/edit(bookId=${book.id})}"><i class="bi-pencil-fill"></i></a>
-                            <a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a>
-                            <a class="btn btn-outline-dark mt-auto" th:href="@{/books/{bookId}/delete(bookId=${book.id})}"><i class="bi-trash-fill"></i></a>
+
+
+                    <div class="cardDetails">
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder book-title" th:text="${book.title}">Book Title</h5>
+                                <h6>ISBN-13: <span th:text="${book.isbn}"></span></h6>
+                                <h6>Author: <span th:text="${book.author.name}"></span></h6>
+                                <h6>Year: <span th:text="${book.year}"></span></h6>
+                                <a class="close-button btn btn-outline-dark mt-auto">Back</a>
+                            </div>
                         </div>
                     </div>
+
+
+
                 </div>
+
             </div>
 
         </div>

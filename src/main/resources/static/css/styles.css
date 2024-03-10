@@ -10,6 +10,37 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+.button-overlay {
+  position: relative;
+  display: inline-block;
+}
+
+.info-icon {
+  position: absolute;
+  top: 10%;
+  left: 90%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 5);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.button-overlay:hover .info-icon {
+  opacity: 1;
+}
+
+.large-icon {
+  font-size: 22px;
+}
+
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;

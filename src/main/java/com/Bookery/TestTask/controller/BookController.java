@@ -47,7 +47,8 @@ public class BookController {
     }
 
     @PostMapping("/books/new")
-    public String saveBook(@ModelAttribute("book") Book book, @RequestParam("image") MultipartFile file) throws IOException {
+    public String saveBook(@ModelAttribute("book") Book book,
+                           @RequestParam("image") MultipartFile file) throws IOException {
         Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
         Files.write(fileNameAndPath, file.getBytes());
         book.setFile_name(file.getOriginalFilename());
@@ -65,7 +66,9 @@ public class BookController {
     }
 
     @PostMapping("/books/{bookId}/edit")
-    public String updateBook(@PathVariable("bookId") Long bookId, @ModelAttribute("book") BookDto book, @RequestParam("image") MultipartFile file) throws IOException {
+    public String updateBook(@PathVariable("bookId") Long bookId,
+                             @ModelAttribute("book") BookDto book,
+                             @RequestParam("image") MultipartFile file) throws IOException {
         BookDto existingBook = bookService.findBookById(bookId);
         book.setFile_name(existingBook.getFile_name());
         if (!file.isEmpty()) {
