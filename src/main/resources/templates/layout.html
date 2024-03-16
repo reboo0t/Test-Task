@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -21,9 +21,9 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link active" th:href="@{/books}">Books</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/books/new}">AddBook</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/books/new}" sec:authorize="hasAuthority('ADMIN')">AddBook</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/authors}">Authors</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/authors/new}">AddAuthor</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/authors/new}" sec:authorize="hasAuthority('ADMIN')">AddAuthor</a></li>
             </ul>
             <div class="d-flex">
                 <a class="btn btn-outline-dark me-2" type="submit" th:href="@{/register}">
