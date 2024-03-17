@@ -20,7 +20,7 @@
 
 
 
-                    <div class="cardOriginal">
+                    <div class="cardOriginal min-vh-33 h-auto position-relative">
                         <!-- Product image-->
                         <div class="button-overlay position-relative d-inline-block large-icon">
                             <img alt="Book Image" class="card-img-top" th:src="@{'covers/' + ${book.file_name}}"/>
@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent" style="position: absolute; bottom: 0; right: 0; left: 0; margin: auto">
                             <div class="text-center">
                                 <a class="btn btn-outline-dark mt-auto"
                                    th:href="@{/books/{bookId}/edit(bookId=${book.id})}" sec:authorize="hasAuthority('ADMIN')"><i class="bi-pencil-fill"></i></a>

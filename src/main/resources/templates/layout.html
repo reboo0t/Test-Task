@@ -21,21 +21,28 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link active" th:href="@{/books}">Books</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/books/new}" sec:authorize="hasAuthority('ADMIN')">AddBook</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/books/admin/new}" sec:authorize="hasAuthority('ADMIN')">AddBook</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/authors}">Authors</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/authors/new}" sec:authorize="hasAuthority('ADMIN')">AddAuthor</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/authors/admin/new}" sec:authorize="hasAuthority('ADMIN')">AddAuthor</a></li>
             </ul>
             <div class="d-flex">
-                <a class="btn btn-outline-dark me-2" type="submit" th:href="@{/register}">
-                    <i class="bi bi-house-fill"></i>
-                    Register
-                </a>
-                <a class="btn btn-outline-dark me-2" type="submit" th:href="@{/login}">
+                <!-- Login Button -->
+                <a class="btn btn-outline-dark me-2" type="submit" th:href="@{/login}" th:if="${#authorization.expression('!isAuthenticated()')}">
                     <i class="bi bi-house-fill"></i>
                     Login
                 </a>
+
+                <!-- Logout Button -->
+                <a class="btn btn-outline-dark me-2" type="submit" th:href="@{/logout}" th:if="${#authorization.expression('isAuthenticated()')}">
+                    <i class="bi bi-door-closed-fill"></i>
+                    Logout
+                </a>
+                <a class="btn btn-outline-dark me-2" type="submit" th:href="@{/admin/users}" sec:authorize="hasAuthority('ADMIN')">
+                    <i class="bi bi-people-fill me-1"></i>
+                    Users
+                </a>
                 <a class="btn btn-outline-dark" type="submit">
-                    <i class="bi-cart-fill me-1"></i>
+                    <i class="bi bi-cart-fill me-1"></i>
                     Cart
                     <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                 </a>

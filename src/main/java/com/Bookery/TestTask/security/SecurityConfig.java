@@ -32,7 +32,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/", "/books", "/login", "/register/**", "/css/**", "/js/**", "/covers/**").permitAll();
-                    auth.requestMatchers("/books/new", "authors/new", "/books/{bookId}/edit", "/books/{bookId}/delete").hasAuthority("ADMIN");
+                    auth.requestMatchers("/books/admin/**", "/authors/admin/**", "/admin/users/**").hasAuthority("ADMIN");
                     auth.anyRequest().authenticated();
                 })
                 .formLogin(form -> form

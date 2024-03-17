@@ -38,7 +38,7 @@ public class BookController {
         return "books-list";
     }
 
-    @GetMapping("/books/new")
+    @GetMapping("/books/admin/new")
     public String createBookForm(Model model) {
         Book book = new Book();
         List<AuthorDto> authors = authorService.findAllAuthors();
@@ -47,7 +47,7 @@ public class BookController {
         return "books-create";
     }
 
-    @PostMapping("/books/new")
+    @PostMapping("/books/admin/new")
     public String saveBook(@ModelAttribute("book") Book book,
                            @RequestParam("image") MultipartFile file) throws IOException {
         Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
@@ -57,7 +57,7 @@ public class BookController {
         return "redirect:/books";
     }
 
-    @GetMapping("/books/{bookId}/edit")
+    @GetMapping("/books/admin/{bookId}/edit")
     public String editBookForm(@PathVariable("bookId") long bookId, Model model) {
         BookDto book = bookService.findBookById(bookId);
         List<AuthorDto> authors = authorService.findAllAuthors();
@@ -66,7 +66,7 @@ public class BookController {
         return "books-edit";
     }
 
-    @PostMapping("/books/{bookId}/edit")
+    @PostMapping("/books/admin/{bookId}/edit")
     public String updateBook(@PathVariable("bookId") Long bookId,
                              @ModelAttribute("book") BookDto book,
                              @RequestParam("image") MultipartFile file) throws IOException {
@@ -82,7 +82,7 @@ public class BookController {
         return "redirect:/books";
     }
 
-    @GetMapping("/books/{bookId}/delete")
+    @GetMapping("/books/admin/{bookId}/delete")
     public String deleteBook(@PathVariable("bookId") long bookId) {
         bookService.deleteBookById(bookId);
         return "redirect:/books";
