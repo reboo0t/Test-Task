@@ -2,15 +2,18 @@
 <html lang="en"
       layout:decorate="~{layout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+      xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <body>
 
 <!-- Section-->
 <section class="py-5" layout:fragment="body">
     <div class="container px-4 px-lg-5 mt-5">
-        <div th:if="${param.success}" class="alert alert-success">
+        <div class="alert alert-success" th:if="${param.success}">
             You were registered successfully!
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            Authenticated as <span sec:authentication="name"></span>
         </div>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
@@ -19,13 +22,12 @@
                 <div class="card h-100" th:id="${book.id}">
 
 
-
                     <div class="cardOriginal min-vh-33 h-auto position-relative">
                         <!-- Product image-->
                         <div class="button-overlay position-relative d-inline-block large-icon">
                             <img alt="Book Image" class="card-img-top" th:src="@{'covers/' + ${book.file_name}}"/>
                             <div class="info-icon">
-                                <a href="#" class="info-button"><i class="bi-info-circle-fill text-white"></i></a>
+                                <a class="info-button" href="#"><i class="bi-info-circle-fill text-white"></i></a>
                             </div>
                         </div>
                         <!-- Product details-->
@@ -36,13 +38,20 @@
                             </div>
                         </div>
                         <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent" style="position: absolute; bottom: 0; right: 0; left: 0; margin: auto">
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent"
+                             style="position: absolute; bottom: 0; right: 0; left: 0; margin: auto">
                             <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto"
-                                   th:href="@{/books/{bookId}/edit(bookId=${book.id})}" sec:authorize="hasAuthority('ADMIN')"><i class="bi-pencil-fill"></i></a>
-                                <a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a>
-                                <a class="btn btn-outline-dark mt-auto"
-                                   th:href="@{/books/{bookId}/delete(bookId=${book.id})}" sec:authorize="hasAuthority('ADMIN')"><i class="bi-trash-fill"></i></a>
+                                <form method="post" th:action="@{/cart/add/{bookId}(bookId=${book.id})}">
+                                    <a class="btn btn-outline-dark mt-auto" sec:authorize="hasAuthority('ADMIN')" th:href="@{/books/admin/{bookId}/edit(bookId=${book.id})}">
+                                        <i class="bi-pencil-fill"></i>
+                                    </a>
+                                    <button class="btn btn-outline-dark mt-auto add-to-cart-btn" sec:authorize="hasAuthority('USER')" type="submit">
+                                        Add to cart
+                                    </button>
+                                    <a class="btn btn-outline-dark mt-auto" sec:authorize="hasAuthority('ADMIN')" th:href="@{/books/admin/{bookId}/delete(bookId=${book.id})}">
+                                        <i class="bi-trash-fill"></i>
+                                    </a>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -60,7 +69,6 @@
                             </div>
                         </div>
                     </div>
-
 
 
                 </div>

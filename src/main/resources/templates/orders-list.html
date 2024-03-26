@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorate="~{layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<body>
+
+<!-- Section-->
+<section class="py-5" layout:fragment="body">
+    <div class="container mt-5">
+        <h1>Order History</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Loop through previous orders -->
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.dateAdded}"></td>
+                <td th:text="${order.status}"></td>
+                <td th:text="${order.totalPrice}"></td>
+                <td class="w-10">
+                    <a class="text-black m-2" th:href="@{/cart/{orderId}(orderId=${order.id})}"><i class="bi-info-lg"></i></a>
+                    <a class="text-black m-2" th:href="@{/cart/{orderId}/delete(orderId=${order.id})}"><i class="bi-trash-fill"></i></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+</body>
+
+</html>

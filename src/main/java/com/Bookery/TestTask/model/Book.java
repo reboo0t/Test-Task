@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,4 +28,33 @@ public class Book {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author")
     Author authorId;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    Collection<OrderDetails> orderDetailsList = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", isbn=" + isbn +
+                ", title='" + title + '\'' +
+                ", year=" + year +
+                ", price=" + price +
+                ", file_name=" + file_name +
+                '}';
+    }
 }
+/*
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", isbn=" + isbn +
+                ", title='" + title + '\'' +
+                ", year=" + year +
+                ", price=" + price +
+                ", file_name=" + file_name +
+                '}';
+    }
+
+ */

@@ -1,0 +1,38 @@
+<html lang="en"
+      layout:decorate="~{layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- Section-->
+<section class="py-5" layout:fragment="body">
+    <div class="container mt-5">
+        <h1>Order Details</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Loop through order details -->
+            <tr th:each="detail : ${orderDetails}">
+                <td th:text="${detail.order_id.id}"></td>
+                <td th:text="${detail.book.title}"></td>
+                <td th:text="${detail.price}"></td>
+                <td th:text="${detail.quantity}"></td>
+                <td><a class="text-black m-2" th:href="@{/cart/details/{detailId}/delete(detailId=${detail.id})}"><i class="bi bi-x-lg"></i></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+</body>
+
+</html>

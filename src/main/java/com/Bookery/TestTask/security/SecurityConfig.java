@@ -3,7 +3,6 @@ package com.Bookery.TestTask.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,7 +30,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/", "/books", "/login", "/register/**", "/css/**", "/js/**", "/covers/**").permitAll();
+                    auth.requestMatchers("/", "/books", "/authors", "/login", "/register/**", "/css/**", "/js/**", "/covers/**").permitAll();
                     auth.requestMatchers("/books/admin/**", "/authors/admin/**", "/admin/users/**").hasAuthority("ADMIN");
                     auth.anyRequest().authenticated();
                 })
@@ -45,9 +44,5 @@ public class SecurityConfig {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
                 )
                 .build();
-    }
-
-    public void configure(AuthenticationManagerBuilder builder) throws Exception {
-        builder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 }

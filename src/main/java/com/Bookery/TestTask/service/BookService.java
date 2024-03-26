@@ -39,7 +39,6 @@ public class BookService {
                 .build();
     }
 
-
     private BookDto mapToBookDto(Book book) {
         return BookDto.builder()
                 .id(book.getId())
@@ -52,19 +51,6 @@ public class BookService {
                 .build();
     }
 
-    public Book saveBook(Book book) {
-        return bookRepository.save(book);
-    }
-
-    public BookDto findBookById(long bookId) {
-        Book book = (bookRepository.findById(bookId).get());
-        return mapToBookDto(book);
-    }
-    public void updateBook(BookDto bookDto) {
-        Book book = mapToBook(bookDto);
-        bookRepository.save(book);
-    }
-
     private Book mapToBook(BookDto book) {
         return Book.builder()
                 .id(book.getId())
@@ -75,6 +61,20 @@ public class BookService {
                 .file_name(book.getFile_name())
                 .authorId(mapToAuthor(book.getAuthor()))
                 .build();
+    }
+
+    public void saveBook(Book book) {
+        bookRepository.save(book);
+    }
+
+    public BookDto findBookById(long bookId) {
+        Book book = (bookRepository.findById(bookId).get());
+        return mapToBookDto(book);
+    }
+
+    public void updateBook(BookDto bookDto) {
+        Book book = mapToBook(bookDto);
+        bookRepository.save(book);
     }
 
     public void deleteBookById(long id) {

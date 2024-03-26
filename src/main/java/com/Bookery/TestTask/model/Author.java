@@ -24,4 +24,23 @@ public class Author {
 
     @OneToMany(mappedBy = "authorId", cascade = CascadeType.ALL)
     List<Book> books;
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", birthdate=" + birthdate +
+                '}';
+    }
 }
+/*
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", birthdate=" + birthdate +
+                '}';
+    }
+ */
