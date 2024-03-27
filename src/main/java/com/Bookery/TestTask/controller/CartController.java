@@ -13,6 +13,7 @@ import com.Bookery.TestTask.service.OrderDetailsService;
 import com.Bookery.TestTask.service.OrderService;
 import com.Bookery.TestTask.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,7 +48,7 @@ public class CartController {
     @GetMapping("/cart")
     public String listOrders(Model model, Principal principal) {
         UserEntity currentUser = userService.findByEmail(principal.getName());
-        List<OrderDto> orders = Collections.singletonList(orderService.findOrderByUser(currentUser));
+        List<OrderDto> orders = orderService.findAllOrdersByUser(currentUser);
         model.addAttribute("orders", orders);
         return "orders-list";
     }
@@ -62,14 +63,19 @@ public class CartController {
     @PostMapping("/cart/add/{bookId}")
     public String addToCart(@PathVariable("bookId") Long bookId, Principal principal) {
         UserEntity currentUser = userService.findByEmail(principal.getName());
-        Order order = orderService.findOrderByUserAndStatus(currentUser, "In Progress");
-
-        if (order == null) {
-            order = new Order();
-            order.setUser(currentUser);
-            order.setStatus("In Progress");
-            order.setDateAdded(LocalDate.now());
-            order = orderService.saveOrder(order);
+        Order order = null;
+        try {
+            order = orderService.findOrderByUserAndStatus(currentUser, "In Progress");
+            if (order == null) {
+                order = new Order();
+                order.setUser(currentUser);
+                order.setStatus("In Progress");
+                order.setDateAdded(LocalDate.now());
+                order = orderService.saveOrder(order);
+            }
+        } catch (DataIntegrityViolationException e) {
+            // Log the exception and redirect to an error page
+            return "redirect:/error";
         }
 
         Book book = bookRepository.findById(bookId)
@@ -93,6 +99,9 @@ public class CartController {
 
         // Recalculate the total price for the order
         BigDecimal totalPrice = orderService.calculateTotalPrice(order);
+        if (order.getTotalPrice() == null) {
+            totalPrice = BigDecimal.valueOf(book.getPrice());
+        }
         order.setTotalPrice(totalPrice);
         orderService.saveOrder(order);
 
@@ -110,4 +119,18 @@ public class CartController {
         orderDetailsService.deleteOrderDetailsById(detailId);
         return "redirect:/cart";
     }
+
+    @GetMapping("/cart/admin")
+    public String manageOrder(Model model) {
+        List<OrderDto> orders = orderService.findAllOrders();
+        model.addAttribute("orders", orders);
+        return "orders-manage";
+    }
+
+    @GetMapping("/cart/admin/{orderId}/complete")
+    public String completeOrder(@PathVariable("orderId") long orderId) {
+        orderService.updateOrderStatus(orderId, "Completed");
+        return "redirect:/cart/admin";
+    }
+
 }

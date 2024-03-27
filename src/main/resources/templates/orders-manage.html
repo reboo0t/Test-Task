@@ -13,6 +13,7 @@
         <table class="table">
             <thead>
             <tr>
+                <th>UserID</th>
                 <th>ID</th>
                 <th>Date</th>
                 <th>Status</th>
@@ -23,13 +24,15 @@
             <tbody>
             <!-- Loop through previous orders -->
             <tr th:each="order : ${orders}">
+                <td th:text="${order.user_id.id}"></td>
                 <td th:text="${order.id}"></td>
                 <td th:text="${order.dateAdded}"></td>
                 <td th:text="${order.status}"></td>
                 <td th:text="${order.totalPrice}"></td>
                 <td class="w-10">
+                    <a class="text-black m-2" th:href="@{/cart/admin/{orderId}/complete(orderId=${order.id})}"><i class="bi-check-lg"></i></a>
                     <a class="text-black m-2" th:href="@{/cart/{orderId}(orderId=${order.id})}"><i class="bi-info-lg"></i></a>
-                    <a class="text-black m-2" th:href="@{/cart/{orderId}/delete(orderId=${order.id})}" th:if="${order.status == 'In Progress'}"><i class="bi-trash-fill"></i></a>
+                    <a class="text-black m-2" th:href="@{/cart/{orderId}/delete(orderId=${order.id})}"><i class="bi-trash-fill"></i></a>
                 </td>
             </tr>
             </tbody>

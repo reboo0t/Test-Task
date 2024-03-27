@@ -40,4 +40,11 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public UserEntity findById(Long userId) {
+        return (userRepository.findById(userId).get());
+    }
+
+    public void updateUser(UserEntity user) {
+        userRepository.save(user);
+    }
 }

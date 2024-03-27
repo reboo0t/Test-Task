@@ -1,0 +1,56 @@
+<html lang="en"
+      layout:decorate="~{layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<body>
+
+<!-- Section-->
+<section class="py-5" layout:fragment="body">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
+
+            <div class="container" style="width: 500px;">
+                <form enctype="multipart/form-data" method="post" role="form"
+                      th:action="@{/admin/users/{userId}/edit(userId=${user.id})}"
+                      th:object="${user}">
+                    <input th:field="*{id}" type="hidden">
+                    <div class="mb-3">
+                        <label class="form-label" for="email">Email</label>
+                        <input
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                th:field="*{email}"
+                                type="email">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="password">Password</label>
+                        <input
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                th:field="*{password}"
+                                type="password">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="username">Username</label>
+                        <input
+                                class="form-control"
+                                id="username"
+                                name="username"
+                                th:field="*{username}"
+                                type="text">
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-dark" type="submit">Update</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+</body>
+
+</html>

@@ -5,10 +5,13 @@ import com.Bookery.TestTask.model.Order;
 import com.Bookery.TestTask.model.UserEntity;
 import com.Bookery.TestTask.repository.OrderRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,6 +77,13 @@ public class OrderService {
         return mapToOrderDto(order);
     }
 
+    public List<OrderDto> findAllOrdersByUser(UserEntity user) {
+        List<Order> orders = orderRepository.findAllByUser(user);
+        return orders.stream()
+                .map(this::mapToOrderDto)
+                .collect(Collectors.toList());
+    }
+
     public Order saveOrder(Order order) {
         return orderRepository.save(order);
     }
@@ -83,8 +93,15 @@ public class OrderService {
         orderRepository.save(order);
     }
 
+    public void updateOrderStatus(long orderId, String status) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
+        order.setStatus(status);
+        orderRepository.save(order);
+    }
+
+
     public void deleteOrderById(long id) {
         orderRepository.deleteById(id);
     }
-
 }
