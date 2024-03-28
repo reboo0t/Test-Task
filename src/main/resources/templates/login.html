@@ -9,10 +9,10 @@
     <div class="container px-4 px-lg-5 mt-5">
         <div class="gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
             <div class="container" style="width: 500px;">
-                <div th:if="${param.error}" class="alert alert-info">
+                <div class="alert alert-info" th:if="${param.error}">
                     Invalid username or password.
                 </div>
-                <div th:if="${param.logout}" class="alert alert-success">
+                <div class="alert alert-success" th:if="${param.logout}">
                     You have been logged out.
                 </div>
                 <form method="post" role="form" th:action="@{/login}">
@@ -22,8 +22,8 @@
                                 class="form-control"
                                 id="username"
                                 name="username"
-                                type="text"
-                                placeholder="Enter Username">
+                                placeholder="Enter Username"
+                                type="text">
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="password">Password</label>
@@ -31,11 +31,11 @@
                                 class="form-control"
                                 id="password"
                                 name="password"
-                                type="password"
-                                placeholder="Enter Password">
+                                placeholder="Enter Password"
+                                type="password">
                     </div>
-                    <a th:href="@{/register}" type="submit" class="btn btn-black">Register</a>
-                    <button type="submit" value="Log in" class="btn btn-secondary">Login</button>
+                    <a class="btn btn-black" th:href="@{/register}" type="submit">Register</a>
+                    <button class="btn btn-secondary" type="submit" value="Log in">Login</button>
                 </form>
             </div>
 

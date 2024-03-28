@@ -1,6 +1,7 @@
 package com.Bookery.TestTask.service;
 
 import com.Bookery.TestTask.dto.RegistrationDto;
+import com.Bookery.TestTask.exception.ResourceNotFoundException;
 import com.Bookery.TestTask.model.Role;
 import com.Bookery.TestTask.model.UserEntity;
 import com.Bookery.TestTask.repository.RoleRepository;
@@ -40,11 +41,21 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public UserEntity findById(Long userId) {
+    public UserEntity findById(long userId) {
         return (userRepository.findById(userId).get());
     }
 
     public void updateUser(UserEntity user) {
         userRepository.save(user);
+    }
+
+    public void deleteById(long userId) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        user.getRoles().clear();
+        userRepository.save(user);
+
+        userRepository.deleteById(userId);
     }
 }

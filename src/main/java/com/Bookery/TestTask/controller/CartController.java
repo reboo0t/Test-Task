@@ -8,7 +8,6 @@ import com.Bookery.TestTask.model.Order;
 import com.Bookery.TestTask.model.OrderDetails;
 import com.Bookery.TestTask.model.UserEntity;
 import com.Bookery.TestTask.repository.BookRepository;
-import com.Bookery.TestTask.service.BookService;
 import com.Bookery.TestTask.service.OrderDetailsService;
 import com.Bookery.TestTask.service.OrderService;
 import com.Bookery.TestTask.service.UserService;
@@ -25,21 +24,18 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
 public class CartController {
     private final BookRepository bookRepository;
-    private final BookService bookService;
     private final OrderDetailsService orderDetailsService;
     private final UserService userService;
     private final OrderService orderService;
 
     @Autowired
-    public CartController(BookRepository bookRepository, BookService bookService, OrderDetailsService orderDetailsService, UserService userService, OrderService orderService) {
+    public CartController(BookRepository bookRepository, OrderDetailsService orderDetailsService, UserService userService, OrderService orderService) {
         this.bookRepository = bookRepository;
-        this.bookService = bookService;
         this.orderDetailsService = orderDetailsService;
         this.userService = userService;
         this.orderService = orderService;
@@ -63,7 +59,7 @@ public class CartController {
     @PostMapping("/cart/add/{bookId}")
     public String addToCart(@PathVariable("bookId") Long bookId, Principal principal) {
         UserEntity currentUser = userService.findByEmail(principal.getName());
-        Order order = null;
+        Order order;
         try {
             order = orderService.findOrderByUserAndStatus(currentUser, "In Progress");
             if (order == null) {
@@ -74,21 +70,17 @@ public class CartController {
                 order = orderService.saveOrder(order);
             }
         } catch (DataIntegrityViolationException e) {
-            // Log the exception and redirect to an error page
             return "redirect:/error";
         }
 
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found"));
 
-        // Check if the book already exists in the order details for the current order
         OrderDetails existingOrderDetails = orderDetailsService.findOrderDetailsByOrderAndBook(order, book);
         if (existingOrderDetails != null) {
-            // If the book exists, increase the quantity
             existingOrderDetails.setQuantity(existingOrderDetails.getQuantity() + 1);
             orderDetailsService.saveOrderDetails(existingOrderDetails);
         } else {
-            // If the book does not exist in the current order, create a new order detail
             OrderDetails orderDetails = new OrderDetails();
             orderDetails.setBook(book);
             orderDetails.setPrice(BigDecimal.valueOf(book.getPrice()));
@@ -97,7 +89,6 @@ public class CartController {
             orderDetailsService.saveOrderDetails(orderDetails);
         }
 
-        // Recalculate the total price for the order
         BigDecimal totalPrice = orderService.calculateTotalPrice(order);
         if (order.getTotalPrice() == null) {
             totalPrice = BigDecimal.valueOf(book.getPrice());
@@ -131,6 +122,12 @@ public class CartController {
     public String completeOrder(@PathVariable("orderId") long orderId) {
         orderService.updateOrderStatus(orderId, "Completed");
         return "redirect:/cart/admin";
+    }
+
+    @GetMapping("/cart/{orderId}/pend")
+    public String pendOrder(@PathVariable("orderId") long orderId) {
+        orderService.updateOrderStatus(orderId, "Pending");
+        return "redirect:/cart";
     }
 
 }

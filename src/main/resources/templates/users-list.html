@@ -27,6 +27,7 @@
                 <td th:text="${user.username}"></td>
                 <th class="w-10">
                     <a class="text-black m-2" th:href="@{/admin/users/{userId}/edit(userId=${user.id})}"><i class="bi-pencil-fill"></i></a>
+                    <a class="text-black m-2" th:href="@{/admin/users/{userId}/delete(userId=${user.id})}"><i class="bi-trash-fill"></i></a>
                 </th>
             </tr>
             </tbody>

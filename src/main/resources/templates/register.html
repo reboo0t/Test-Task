@@ -9,7 +9,7 @@
     <div class="container px-4 px-lg-5 mt-5">
         <div class="gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
             <div class="container" style="width: 500px;">
-                <div th:if="${param.fail}" class="alert alert-warning">
+                <div class="alert alert-warning" th:if="${param.fail}">
                     Username or email already exists!
                 </div>
                 <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
@@ -18,33 +18,33 @@
                         <input
                                 class="form-control"
                                 id="emailInput"
-                                type="email"
                                 placeholder="Enter email"
-                                th:field="*{email}">
+                                th:field="*{email}"
+                                type="email">
                     </div>
-                    <p th:if="${#fields.hasErrors('email')}" class="text-danger"></p>
+                    <p class="text-danger" th:if="${#fields.hasErrors('email')}"></p>
                     <div class="mb-3">
                         <label class="form-label" for="usernameInput">Username</label>
                         <input
                                 class="form-control"
                                 id="usernameInput"
-                                type="text"
                                 placeholder="Enter Username"
-                                th:field="*{username}">
+                                th:field="*{username}"
+                                type="text">
                     </div>
-                    <p th:if="${#fields.hasErrors('username')}" class="text-danger"></p>
+                    <p class="text-danger" th:if="${#fields.hasErrors('username')}"></p>
                     <div class="mb-3">
                         <label class="form-label" for="passwordInput">Password</label>
                         <input
                                 class="form-control"
                                 id="passwordInput"
-                                type="password"
                                 placeholder="Enter Password"
-                                th:field="*{password}">
+                                th:field="*{password}"
+                                type="password">
                     </div>
-                    <p th:if="${#fields.hasErrors('password')}" class="text-danger"></p>
-                    <a th:href="@{/login}" type="submit" class="btn btn-black">Login</a>
-                    <button th:href="@{/register}" type="submit" class="btn btn-secondary">Register</button>
+                    <p class="text-danger" th:if="${#fields.hasErrors('password')}"></p>
+                    <a class="btn btn-black" th:href="@{/login}" type="submit">Login</a>
+                    <button class="btn btn-secondary" th:href="@{/register}" type="submit">Register</button>
                 </form>
             </div>
 
