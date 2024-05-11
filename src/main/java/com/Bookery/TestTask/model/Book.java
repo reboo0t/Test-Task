@@ -29,7 +29,7 @@ public class Book {
     @JoinColumn(name = "author")
     Author authorId;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     Collection<OrderDetails> orderDetailsList = new ArrayList<>();
 
     @Override
